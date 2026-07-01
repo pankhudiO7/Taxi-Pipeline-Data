@@ -4,6 +4,7 @@ import subprocess
 from datetime import datetime
 from airflow.sdk import dag, task, Asset
 from airflow.exceptions import AirflowFailException
+from airflow.sdk.exceptions import AirflowSkipException
 
 INCOMING_TAXI_DATA = Asset(
     name="landing_zone/incoming_taxi_data",
@@ -50,6 +51,10 @@ def bronze_ingestion_dag():
         if result.returncode != 0:
             log.error("Bronze Spark job stderr:\n%s", result.stderr)
             raise AirflowFailException(f"Bronze Spark job failed with exit code {result.returncode}")
+
+        if "Idempotency skip" in result.stdout:
+            log.info("🛑 Spark job detected a duplicate drop. Short-circuiting Airflow context to prevent downstream triggers.")
+            raise AirflowSkipException("Skipping downstream updates because this data file has already been processed.")
 
         manifest_meta["ingestion_run_id"] = run_id
         context["outlet_events"][BRONZE_TAXI_DATA].extra = manifest_meta

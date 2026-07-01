@@ -72,8 +72,8 @@ def main():
 
     dup_ledger = spark.table(ledger_table).where((col("file_checksum") == computed_checksum) & (col("status") == "SUCCESS")).count()
     if dup_ledger > 0:
-        print("Idempotency guard: checksum already recorded in ledger. Skipping.")
-        sys.exit(0)
+        print("🟢 Idempotency skip: Filename has already completed its processing in Silver. Exiting cleanly.")
+        sys.exit(0)  # Short-circuit cleanly!
 
     dup_table = spark.table(bronze_table).where(col("source_checksum") == computed_checksum).count()
     if dup_table > 0:

@@ -119,11 +119,14 @@ the pipeline cascades automatically.
 
 **Airflow home — health checks, pool slots, run history**
 
-![Airflow home dashboard](docs/screenshots/airflow_home.png)
+blob:https://claude.ai/cda26815-6cf0-4940-9fd4-cc576585e33a<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/aa18b9a7-b728-4fd1-9140-0035e9cbf23a" />
+
+
 
 **All five DAGs completed successfully end-to-end**
 
-![All DAGs succeeded](docs/screenshots/dags_all_success.png)
+blob:https://claude.ai/951ea996-ec87-4a15-b9e4-520d60392a31<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/49054586-af33-4fc8-aeb0-5163373face6" />
+
 
 The run above shows the full cascade: `1_bronze_ingestion` →
 `2_silver_wap_purification` → `3a_gold_bi_marts` and `3b_gold_ml_observations`
